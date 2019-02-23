@@ -37,7 +37,7 @@ def scrapeUrl(universities_url):
         #   print(str(i.getText()))
         university_links = i.find_all('h3', attrs={'class':'heading-large block-tighter'})
         for link in university_links:
-            universities.append(link.find('a'))
+            universities.append(link.find('a').contents[0])
 
     # close the browser
     driver.close()
