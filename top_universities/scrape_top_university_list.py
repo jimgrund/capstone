@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import re
 import os
+import urllib
 
 base_url = "https://www.usnews.com/"
 university_urls = ['https://www.usnews.com/best-colleges/rankings/national-universities?_page=1',\
@@ -21,6 +22,35 @@ university_urls = ['https://www.usnews.com/best-colleges/rankings/national-unive
 
 # placeholder to store the top N universities
 universities = []
+
+def firstGoogleResult(query_url):
+    # Firefox session
+    driver = webdriver.Firefox()
+    driver.get(query_url)
+    driver.implicitly_wait(15)
+
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    code_soup = soup.find_all('div', attrs={'class': 'srg'})
+
+    search_results = []
+    for i in code_soup:
+        #   print(str(i.getText()))
+        result_links = i.find_all('div', attrs={'class':'r'})
+        for link in result_links:
+            search_results.append(link.find('a')['href'])
+
+    # close the browser
+    driver.close()
+
+    return search_results[0]
+
+
+def googleUniversity(university_name):
+    query_string = '"'+university_name+'" "data science" "master program"'
+    query_string = urllib.parse.quote_plus(query_string)
+    google_query_url = 'https://www.google.com/search?q='+query_string
+    #print(google_query_url)
+    return firstGoogleResult(google_query_url)
 
 def scrapeUrl(universities_url):
     print("Scraping ", universities_url)
@@ -50,3 +80,4 @@ for university_url in university_urls:
 
 for university in universities:
     print(university)
+    print(googleUniversity(university))
