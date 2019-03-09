@@ -1,17 +1,17 @@
 #Packages
 
+import re
 import requests
 import json
 from bs4 import BeautifulSoup
 
-# Setup
+#Setup
 
 job_query = (['data+scientist'])
 
-# Code
+#Code
 
 def get_soup(url):
-    ##Ashton: edited to remove Selenium and only use Beautiful Soup
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'lxml')
     return soup
@@ -29,7 +29,7 @@ def grab_job_links(soup):
     return urls
 
 #def get_urls(query, num_pages, location):
-def get_urls(query, num_pages):
+def get_urls(query):
     # We always need the first page
     
     ##Ashton: chagned URL. Was directing to specific job posting. Now goes to search page
@@ -52,10 +52,7 @@ def get_urls(query, num_pages):
         # print('\ntype: {}'.format(type(posting_count)))
     
     ##Ashton: changed 10 to 50 as there are now 50 results per page instead of 10
-    max_pages = round(posting_count / 50) - 3
-    if num_pages > max_pages:
-        print('returning max_pages!!')
-        return max_pages
+    num_pages = round(posting_count / 50) - 3
 
         # Additional work is needed when more than 1 page is requested
     if num_pages >= 2:
@@ -81,8 +78,8 @@ def get_urls(query, num_pages):
         json.dump(urls, f)
 
 ##Ashton: Changed number of searches
-        
-get_urls("data+scientist", 2)
+
+get_urls("data+scientist")
 
 # Check for duplicates in urls.txt
 
