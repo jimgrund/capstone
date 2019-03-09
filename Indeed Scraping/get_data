@@ -1,9 +1,8 @@
+import requests
 import json
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
 #Setup
-
 
 ##Ashton: Added load of urls.txt file
 job_query = (['data+scientist'])[0]
@@ -11,11 +10,8 @@ with open('urls.txt') as f:
     urls = json.load(f)
 
 def get_soup(url):
-    driver = webdriver.Chrome()
-    driver.get(url)
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    driver.close()
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, 'lxml')
     return soup
 
 def extract_salary_from_result(soup):
