@@ -1,9 +1,8 @@
 #Packages
 
-import re
+import requests
 import json
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
 # Setup
 
@@ -12,13 +11,9 @@ job_query = (['data+scientist'])
 # Code
 
 def get_soup(url):
-    
-    ##Ashton: chagned webdriver call to run on any machine with correct drivers
-    driver = webdriver.Chrome()
-    driver.get(url)
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    driver.close()
+    ##Ashton: edited to remove Selenium and only use Beautiful Soup
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, 'lxml')
     return soup
 
 def grab_job_links(soup):
@@ -87,7 +82,7 @@ def get_urls(query, num_pages):
 
 ##Ashton: Changed number of searches
         
-get_urls("data+scientist", 34)
+get_urls("data+scientist", 2)
 
 # Check for duplicates in urls.txt
 
@@ -108,4 +103,4 @@ print(len(data))
 
 ##Ashton: Rewrite the old txt file to include only unique URLs.
 with open('urls.txt', 'w') as f:
-        json.dump(data, f)
+    json.dump(data, f)
