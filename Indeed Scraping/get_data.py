@@ -58,12 +58,13 @@ def get_data(query, urls):
                 postings_dict[i] = {}
                 postings_dict[i]['title'], postings_dict[i]['location'], postings_dict[i]['salary'], postings_dict[i]['posting'], postings_dict[i]['url'] = \
                     title, location, salary, posting, url
-            except:
+            except Exception as e:
+                print("failed URL, moving on" + e)
                 continue
         
         ##Ashton: changed name of json file
         # Save the dict as json file
-        file_name = query.replace('+', '_') + ' data'
+        file_name = query.replace('+', '_') + ',data'
         with open(file_name, 'w') as f:
             json.dump(postings_dict, f)
 
