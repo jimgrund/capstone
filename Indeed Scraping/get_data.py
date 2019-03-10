@@ -64,7 +64,7 @@ def get_data(query, urls):
         
         ##Ashton: changed name of json file
         # Save the dict as json file
-        file_name = query.replace('+', '_') + ',data'
+        file_name = query.replace('+', '_') + '.data'
         with open(file_name, 'w') as f:
             json.dump(postings_dict, f)
 
