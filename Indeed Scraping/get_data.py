@@ -36,7 +36,11 @@ def get_posting(url):
     
     # The job title is held in the h3 tag
     title = soup.find(name='h3').getText().lower()
-    location = soup.find(name='div', attrs={'class': "jobsearch-InlineCompanyRating"}).get_text()
+    location_obj = soup.find(name='div', attrs={'class': "jobsearch-InlineCompanyRating"})
+    if location_obj:
+        location = location_obj.get_text()
+    else:
+        location = "" 
     salary = extract_salary_from_result(soup)
     posting = soup.find(name='div', attrs={'class': "jobsearch-JobComponent"}).get_text()
 
