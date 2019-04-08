@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# take the job postings from Indeed and identify the named entities to assist in identifying key terms for comparison to college courses
+
 import pandas as pd
 import json
 import gensim
@@ -98,20 +100,24 @@ def get_topics(text):
 
 
 
+# read in the job posting data for analysis
 with open('cleansed_job_posts.json', 'r') as jobs_filehandle:
     jobs_data = json.load(jobs_filehandle)
+
+    # loop over each of the job ids in the data
     for job_id in jobs_data.keys():
+        # print output for debugging and tracking purposes
         print(job_id)
-        #print('Posting: ' + jobs_data[job_id]['posting'])
         print('URL: ' + jobs_data[job_id]['url'])
-        print("TOPICS BEGIN")
         #print(get_topics(jobs_data[job_id]['posting']))
         print(get_entities(jobs_data[job_id]['posting']))
+
+        # add the entities to the dataframe
         jobs_data[job_id]['entities'] = get_entities(jobs_data[job_id]['posting'])
-        print("TOPICS END")
-        print('')
         print('')
 
+
+# write modified dataframe out to new json file
 with open('job_posts_entities.json', 'w') as posts_entities_filehandle:
     json.dump(jobs_data, posts_entities_filehandle)
 
