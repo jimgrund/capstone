@@ -11,14 +11,17 @@ ds_str        = ds_filehandle.read()
 ds_data       = json.loads(ds_str)
 
 for job_post in range(len(ds_data)):
-    print(ds_data[str(job_post)]['location'])
     try:
+        print(ds_data[str(job_post)]['location'])
         m = re.search(r'-([^-\d]+)\d*\-*\d*$', ds_data[str(job_post)]['location'])
         print("\t",m.group(1))
         ds_data[str(job_post)]['location'] = m.group(1)
     except:
         print("\tnothing to regex")
-        ds_data[str(job_post)]['location'] = ""
+        try:
+            ds_data[str(job_post)]['location'] = ""
+        except:
+            print("failed to null out value")
 
 
 with open('cleansed_job_posts.json', 'w') as clean_ds_filehandle:
