@@ -3,6 +3,7 @@
 import numpy as np
 import spacy
 import json
+import re
 from sklearn.decomposition import PCA
 #nlp = spacy.load("en_core_web_lg")
 #nlp = spacy.load("xx_ent_wiki_sm")
@@ -28,14 +29,13 @@ def GetSimilarityScore(namedEntity1, namedEntity2):
     #print(token1.text, token2.text, score)
     return score
 
-def IdentifyUniversityCategory(universityCategories, jobEntities):
-    last_category_score = 0
-    best_category = ''
+def GetCategoryScores(universityCategories, jobEntities):
+    category_scores = []
 
     # test each category from the university
     for category in universityCategories:
-        category_score = 0
-        category_scores = []
+        entity_category_scores = []
+        score = {}
 
         # test each named entity from the job posting
         for entity in jobEntities:
@@ -44,25 +44,16 @@ def IdentifyUniversityCategory(universityCategories, jobEntities):
             cur_score = GetSimilarityScore(category, entity)
 
             # append that score to a list
-            category_scores.append(cur_score)
+            entity_category_scores.append(cur_score)
 
         # take the list of scores for the current category and compute an average score 
-        cur_score = sum(category_scores)/len(category_scores)
+        score[category]= sum(entity_category_scores)/len(entity_category_scores)
+        category_scores.append(score.copy())
 
-        # if we're looking for the category that best matches the job posting,
-        # we only care about the category that gets the highest score
-        if cur_score > category_score:
-            category_score = cur_score
+        print(score)
 
-        # if we're looking for the category that best matches the job posting,
-        # we only care about the category that gets the highest score
-        print(category, category_score)
-        if category_score > last_category_score:
-            last_category_score = category_score
-            best_category = category
-
-    # now that we now, let's return the category assigned to job posting
-    return best_category
+    # now that we now, let's return the category scores for job posting
+    return category_scores
 
 
 with open('job_posts_entities.json', 'r') as posts_entities_filehandle:
@@ -75,10 +66,23 @@ with open('job_posts_entities.json', 'r') as posts_entities_filehandle:
         print('URL: ' + jobs_data[job_id]['url'])
 
         # add the entities to the dataframe
-        jobs_data[job_id]['category'] = IdentifyUniversityCategory(universityCategories,jobs_data[job_id]['entities'])
+        jobs_data[job_id]['CategoryScores'] = GetCategoryScores(universityCategories,jobs_data[job_id]['entities'])
 
-        print('Category: ' + jobs_data[job_id]['category'])
+        print('CategoryScores: ' + str(jobs_data[job_id]['CategoryScores']))
         print('')
+
+        print(jobs_data[job_id]['location'])
+        # while we're in here, split location into city and state
+        try:
+            m = re.search(r'^([^,]+) *\,{,1} *([^,]+) *$', jobs_data[job_id]['location'])
+            jobs_data[job_id]['City'] = m.group(1)
+            jobs_data[job_id]['State'] = m.group(2)
+        except:
+            # something failed to match regexp, default to empty strings
+            jobs_data[job_id]['City'] = ""
+            jobs_data[job_id]['State'] = ""
+
+        print(jobs_data[job_id]['City'], jobs_data[job_id]['State'])
 
 
 # write modified dataframe out to new json file
