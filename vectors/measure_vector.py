@@ -2,11 +2,24 @@
 
 import numpy as np
 import spacy
+import json
 from sklearn.decomposition import PCA
 #nlp = spacy.load("en_core_web_lg")
 #nlp = spacy.load("xx_ent_wiki_sm")
 nlp = spacy.load("en_vectors_web_lg")
 
+
+universityCategories = [
+    "Computer Science",
+    "Machine Learning",
+    "Statistics",
+    "Topic",
+    "Database",
+    "Math",
+    "Data Mining",
+    "Data Science",
+    "Visualization"
+]
 
 def GetSimilarityScore(namedEntity1, namedEntity2):
     token1=nlp(namedEntity1)
@@ -52,6 +65,30 @@ def IdentifyUniversityCategory(universityCategories, jobEntities):
     return best_category
 
 
+with open('job_posts_entities.json', 'r') as posts_entities_filehandle:
+    jobs_data = json.load(posts_entities_filehandle)
+
+    # loop over each of the job ids in the data
+    for job_id in jobs_data.keys():
+        # print output for debugging and tracking purposes
+        print(job_id)
+        print('URL: ' + jobs_data[job_id]['url'])
+
+        # add the entities to the dataframe
+        jobs_data[job_id]['category'] = IdentifyUniversityCategory(universityCategories,jobs_data[job_id]['entities'])
+
+        print('Category: ' + jobs_data[job_id]['category'])
+        print('')
+
+
+# write modified dataframe out to new json file
+with open('job_posts_entities_categorized.json', 'w') as posts_categorized_filehandle:
+    json.dump(jobs_data, posts_categorized_filehandle)
+
+exit()
+
+
+
 #print(GetSimilarityScore('data scientist','NLP'))
 jobEntities= [ "data", "scientist", "writing experience", "ideas", "start", "document", "minutes", "anything", "send", "software", "center", "language", "way", "textio", "way", "thousands", "companies", "scientist", "analytics", "understanding", "users", "product", "business", "role", "team", "data scientists", "engineers", "product", "managers", "others", "roadmap", "work", "insights", "power", "company", "decisions", "product direction", "quality", "impact", "textio", "features", "analysis", "workflows", "data", "products", "impact", "customers", "analyses", "influence", "behavior", "platform", "stories", "shares", "world", "welcoming", "science team", "company", "value", "place", "experiment", "data scientist", "join", "colleagues", "organization", "analytics needs", "roadmap", "design", "creation", "maintenance", "solutions", "sources", "pipelines", "product instrumentation", "metrics", "experimentation", "capabilities", "evolution", "superb", "experience", "business", "questions", "analyses", "results", "customer impact", "partners", "information", "quantify", "uncertainty", "face", "expertise", "science", "teams", "mentorship", "partnership", "leadership", "building analytics/bi", "solutions", "variety", "sources", "end", "functions", "history", "time", "growth", "problem", "spaces", "path", "clarity", "steps", "path", "business context", "contours", "data set", "skills", "exploration", "inference", "visualization", "environment", "prototypes", "specs", "pride", "things", "track record", "point", "view", "people", "diversity", "opportunity", "team", "backgrounds", "perspectives", "skills", "work", "interview experience", "philosophy", "benefits", "https", "//textio.com/careers/", "share", "story", "days", "job", "report job", "jobapply nowapply" ]
 
@@ -59,19 +96,8 @@ jobEntities = [ "data", "scientist", "marketing", "analytics", "reviews-lakeland
 
     #"url": "https://www.indeed.com/rc/clk?jk=fd83355c2b23438c&fccid=77a32bcb59e7f031&vjs=3",
 jobEntities = [ "enterprise", "data", "scientist", "ifarmers", "insurance", "reviews-woodland", "hills", "cafarmers", "insurance group3,905", "people", "here.we", "farmers", "join", "team", "professionals", "farmers", "skills", "job", "knowledge", "roles", "training", "opportunities", "award", "university", "magazine amongst", "units", "world", "career", "today", "scientist i", "part", "science team", "analysis", "modeling", "ualization", "services", "lines", "business", "service", "functions", "insurance group", "scientist", "end", "solutions", "part", "models", "datasets", "results", "teams", "job", "variety", "sources", "databases", "web", "files", "formats", "json", "parquet", "analysis describe", "aggregation/summarization", "build", "tools", "reports", "dashboards", "applications", "clients", "patterns", "trends", "data", "comparisons", "data points", "analysis", "reduction", "techniques", "pca", "cluste ring", "permutation", "tests", "hypothesis", "construct", "validate", "models", "techniques", "actions", "environment education", "requirements", "master", "degree", "field", "excellence", "phd", "experience", "year", "analytics", "role", "business intelligence analyst", "analyst", "skill requirement proficiency", "following", "r", "proficiency", "powerbi", "tableau", "qlikview", "d3.js", "sql", "machine learning", "glms", "cluster", "analyses", "arima", "ets", "decision", "trees", "svm", "networks", "methods", "familiarity", "management", "tools", "asana", "basecamp", "liquidplanner", "opportunity employer", "strength", "workforce", "] >", "schedule", "job posting", "days", "report job", "jobapply nowapply", "company" ]
-
-universityCategories = [
-    "Computer Science",
-    "Machine Learning",
-    "Statistics",
-    "Topic",
-    "Database",
-    "Math",
-    "Data Mining",
-    "Data Science",
-    "Visualization"
-]
 print(IdentifyUniversityCategory(universityCategories,jobEntities))
+
 
 
 ###################################################
