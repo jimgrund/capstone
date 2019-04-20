@@ -10,6 +10,75 @@ from sklearn.decomposition import PCA
 nlp = spacy.load("en_vectors_web_lg")
 
 
+universityMinorCategories = [
+    "Algorithms",
+    "Artifical Intelligence",
+    "Bayesian Statistics",
+    "Behavior",
+    "Big Data",
+    "Bioinformatics",
+    "Biostatistics",
+    "Business",
+    "Calculus",
+    "Capstone",
+    "Causal Inference",
+    "Cloud Computing",
+    "Computational Data Science",
+    "Computational Learning Theory",
+    "Computer Vision",
+    "Computer and Network Security",
+    "Data Mining",
+    "Data Modeling",
+    "Database Management",
+    "Database Systems",
+    "Decision Making",
+    "Deep Learning",
+    "Differential Equations",
+    "Distributed Computing",
+    "Econometrics",
+    "Economics",
+    "Engineering",
+    "Estimation",
+    "GIS",
+    "General Data Science",
+    "Health",
+    "High Performance Computing",
+    "Human-Computer Interation",
+    "Independent Study",
+    "Information Retrieval",
+    "Information Systems and Theory",
+    "Linear Algebra",
+    "Linear Models",
+    "Machine Learning",
+    "Marketing",
+    "Mathematical Statistics and Modeling",
+    "Monte Carlo",
+    "Multivariate Analysis",
+    "Natural Lanuage Processing",
+    "Numerical Analysis",
+    "Optimization",
+    "Physics",
+    "Political Science",
+    "Practicum",
+    "Predictive Analytics",
+    "Probability",
+    "Program Management",
+    "Programming",
+    "Regression Analysis",
+    "Research",
+    "Seminar",
+    "Social Science",
+    "Software",
+    "Special Elective",
+    "Special Electives",
+    "Statistical Methods",
+    "Statistics",
+    "Stochastic Processes",
+    "Survey Methods/Analysis",
+    "Time Series",
+    "Tools for Data Science",
+    "Visualization"
+]
 universityCategories = [
     "Computer Science",
     "Machine Learning",
@@ -66,7 +135,7 @@ with open('job_posts_entities.json', 'r') as posts_entities_filehandle:
         print('URL: ' + jobs_data[job_id]['url'])
 
         # add the entities to the dataframe
-        jobs_data[job_id]['CategoryScores'] = GetCategoryScores(universityCategories,jobs_data[job_id]['entities'])
+        jobs_data[job_id]['CategoryScores'] = GetCategoryScores(universityMinorCategories,jobs_data[job_id]['entities'])
 
         print('CategoryScores: ' + str(jobs_data[job_id]['CategoryScores']))
         print('')
@@ -100,7 +169,7 @@ jobEntities = [ "data", "scientist", "marketing", "analytics", "reviews-lakeland
 
     #"url": "https://www.indeed.com/rc/clk?jk=fd83355c2b23438c&fccid=77a32bcb59e7f031&vjs=3",
 jobEntities = [ "enterprise", "data", "scientist", "ifarmers", "insurance", "reviews-woodland", "hills", "cafarmers", "insurance group3,905", "people", "here.we", "farmers", "join", "team", "professionals", "farmers", "skills", "job", "knowledge", "roles", "training", "opportunities", "award", "university", "magazine amongst", "units", "world", "career", "today", "scientist i", "part", "science team", "analysis", "modeling", "ualization", "services", "lines", "business", "service", "functions", "insurance group", "scientist", "end", "solutions", "part", "models", "datasets", "results", "teams", "job", "variety", "sources", "databases", "web", "files", "formats", "json", "parquet", "analysis describe", "aggregation/summarization", "build", "tools", "reports", "dashboards", "applications", "clients", "patterns", "trends", "data", "comparisons", "data points", "analysis", "reduction", "techniques", "pca", "cluste ring", "permutation", "tests", "hypothesis", "construct", "validate", "models", "techniques", "actions", "environment education", "requirements", "master", "degree", "field", "excellence", "phd", "experience", "year", "analytics", "role", "business intelligence analyst", "analyst", "skill requirement proficiency", "following", "r", "proficiency", "powerbi", "tableau", "qlikview", "d3.js", "sql", "machine learning", "glms", "cluster", "analyses", "arima", "ets", "decision", "trees", "svm", "networks", "methods", "familiarity", "management", "tools", "asana", "basecamp", "liquidplanner", "opportunity employer", "strength", "workforce", "] >", "schedule", "job posting", "days", "report job", "jobapply nowapply", "company" ]
-print(IdentifyUniversityCategory(universityCategories,jobEntities))
+print(IdentifyUniversityCategory(universityMinorCategories,jobEntities))
 
 
 
