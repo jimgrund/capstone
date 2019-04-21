@@ -1,6 +1,7 @@
 The latest university curriculum clustering was created using the 'university_clustering_NEW.ipynb' script. The resulting dataframe is 'university_clustering_NEW.csv'. 
 
 There are 8 major cluster categories and 23 minor cluster categories: <br />
+<br />
 0 Computer Science- 20 Computer/Network Security; 27 Coding <br />
 1 Machine Learning- 13 Natural Language Processing; 28 Deep Learning/ML <br />
 2 Statistics- 1 Theory; 7 Modeling; 11 Stochastic Processes; 22 Probability; 26 Time Series <br />
