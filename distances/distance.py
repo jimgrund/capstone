@@ -14,9 +14,10 @@ import csv
 import json
 import re
 import time
+import os
 
 # google maps api key with distance matrix feature activated
-GOOGLE_KEY = 'XXXXXXXXXXXXXX'
+GOOGLE_KEY = 'XXXXX'
 
 # radius in miles around university to look for jobs
 RADIUS = 150
@@ -26,7 +27,11 @@ RADIUS_IN_METERS = (RADIUS * 1609)
 
 gmaps = googlemaps.Client(key=GOOGLE_KEY)
 
-def GetDistance(city1,city2):
+# initialize a cache of distances between cities
+distanceCache = {}
+
+# lookup the distance via the google maps api
+def GetGoogleDistance(city1,city2):
     # google distance matrix returns in meters
     # 1609 meters per mile
 
@@ -38,8 +43,52 @@ def GetDistance(city1,city2):
     return distance
 
 
-def GetJobsNearCity(city):
+# check the local cache for distance data
+def CheckCachedDistance(city1,city2):
+    if city1 in distanceCache:
+        if city2 in distanceCache[city1]:
+            return distanceCache[city1][city2]
+    if city2 in distanceCache:
+        if city1 in distanceCache[city2]:
+            return distanceCache[city2][city1]
+    return None
 
+
+# append distance data into local cache for future lookups
+def CacheDistance(city1,city2,distance):
+    if city1 not in distanceCache:
+        distanceCache[city1] = {}
+    distanceCache[city1][city2] = distance
+
+    # write the cache out to disk in case we crash
+    SaveDistanceCache()
+
+
+# lowercase and remove leading and trailing whitespace
+def CleanCity(city):
+    city = city.lower()
+    city = city.lstrip()
+    city = city.rstrip()
+    return city
+
+
+# get the distance between two cities
+# checking both cached data and lookup via google api
+def GetDistance(city1,city2):
+    # clean and normalize cities
+    city1 = CleanCity(city1)
+    city2 = CleanCity(city2)
+
+    cachedDistance = CheckCachedDistance(city1,city2)
+    if cachedDistance is not None:
+        return cachedDistance
+    else:
+        googleDistance = GetGoogleDistance(city1,city2)
+        CacheDistance(city1,city2,googleDistance)
+        return googleDistance
+
+
+def GetJobsNearCity(city):
     # initialize jobs_list
     jobsList = []
 
@@ -60,17 +109,29 @@ def GetJobsNearCity(city):
                 continue
 
             # if distance is within defined radius, add to the list of jobs to return for this request
-            if GetDistance(jobCity, city) <= RADIUS_IN_METERS:
+            if GetDistance(city, jobCity) <= RADIUS_IN_METERS:
                 jobsList.append(jobId)
 
         jobsFilehandle.close()
         return(jobsList)
         
 
+def SaveDistanceCache():
+    with open('distanceCache.json', 'w') as fh:
+        json.dump(distanceCache, fh)
 
+def LoadDistanceCache():
+    if os.path.isfile('distanceCache.json'):
+        with open('distanceCache.json', 'r') as fh:
+            distanceCache = json.load(fh)
+    else:
+        distanceCache = {}
+    return distanceCache
 
 universities = []
 universityIndex = 0
+
+distanceCache = LoadDistanceCache()
 
 # read in the university data for distance calculation
 with open('universities.csv', 'r') as universities_filehandle:
@@ -91,3 +152,5 @@ with open('universities.csv', 'r') as universities_filehandle:
 # write modified dataframe out to new json file
 with open('university_job_postings.json', 'w') as university_job_postings_filehandle:
     json.dump(universities, university_job_postings_filehandle)
+
+SaveDistanceCache()
