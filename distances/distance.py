@@ -17,7 +17,7 @@ import time
 import os
 
 # google maps api key with distance matrix feature activated
-GOOGLE_KEY = 'XXXXX'
+GOOGLE_KEY = 'AIzaSyD-0X6Go8Gph1py60OBObm_2SWZpw3f5Lg'
 
 # radius in miles around university to look for jobs
 RADIUS = 150
@@ -83,6 +83,7 @@ def GetDistance(city1,city2):
     if cachedDistance is not None:
         return cachedDistance
     else:
+        print("querying Google")
         googleDistance = GetGoogleDistance(city1,city2)
         CacheDistance(city1,city2,googleDistance)
         return googleDistance
@@ -137,7 +138,8 @@ distanceCache = LoadDistanceCache()
 with open('universities.csv', 'r') as universities_filehandle:
     universities_reader = csv.DictReader(universities_filehandle)
     for row in universities_reader:
-        if row['Has DS MS'].lower() == "yes":
+        #print(row['University'] + " - " + row['Has DS MS'])
+        if row['Has DS MS'].lower().lstrip().rstrip() == "yes":
             university = {}
             universityCity = row['City'] + ", " + row['State']
             print(str(universityIndex) + " " + row['University'] + " " + universityCity)

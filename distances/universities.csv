@@ -1,12 +1,12 @@
 Analyzer,University,City,State,Phone,Potential Data Science Masters URL,Has DS MS,,,
-Ashton,American University,Washington,DC,(202) 885-1000,https://www.american.edu/spa/news/data-science-ms.cfm,,no,yes,Left
+Ashton,American University,Washington,DC,(202) 885-1000,https://www.american.edu/spa/news/data-science-ms.cfm,yes,no,yes,Left
 Ashton,Baylor University,Waco,TX,(800) 229-5678,https://www.baylor.edu/graduate/doc.php/288402.pdf,No,41,41,18
-Ashton,Binghamton University--SUNY,Binghamton,NY,(607) 777-2000,https://www.binghamton.edu/som/docs/cv/ayayla.cv.pdf,,,,
+Ashton,Binghamton University--SUNY,Binghamton,NY,(607) 777-2000,https://www.binghamton.edu/som/docs/cv/ayayla.cv.pdf,yes,,,
 Ashton,Boston College,Chestnut Hill,MA,(617) 552-8000,https://www.bc.edu/bc-web/schools/wcas/graduate/certificates.html,No,,,
 Ashton,Boston University,Boston,MA,(617) 353-2000,https://www.bu.edu/cs/masters/program/cyber-security/alumni-profiles/,No,,,
 Ashton,Brandeis University,Waltham,MA,(781) 736-2000,https://www.brandeis.edu/gsas/programs/math.html,,,,
-Ashton,Brigham Young University--Provo,Provo,UT,(801) 422-4636,https://www.cs.utah.edu/docs/Faculty/Utah-Computing-Self-Study-(FINAL).pdf,,,,
-Ashton,Brown University,Providence,RI,(401) 863-1000,https://www.brown.edu/initiatives/data-science/masters-degree,,,,
+Ashton,Brigham Young University--Provo,Provo,UT,(801) 422-4636,https://www.cs.utah.edu/docs/Faculty/Utah-Computing-Self-Study-(FINAL).pdf,yes,,,
+Ashton,Brown University,Providence,RI,(401) 863-1000,https://www.brown.edu/initiatives/data-science/masters-degree,yes,,,
 Ashton,California Institute of Technology,Pasadena,CA,(626) 395-6811,https://datascience.columbia.edu/meet-incoming-master%E2%80%99s-class,No,,,
 Ashton,Carnegie Mellon University,Pittsburgh,PA,(412) 268-2000,https://www.cs.cmu.edu/masters-programs,Yes,,,
 Ashton,Case Western Reserve University,Cleveland,OH,(216) 368-2000,http://engineering.case.edu/centers/sdle/node/60,No,,,
@@ -57,7 +57,7 @@ Alexa,Texas Christian University,Fort Worth,TX,(817) 257-7000,https://www.tcu.ed
 Alexa,Tufts University,Medford,MA,(617) 628-5000,https://asegrad.tufts.edu/academics/explore-graduate-programs/data-science,Yes ,,,
 Alexa,Tulane University,New Orleans,LA,(504) 865-5000,https://www.smu.edu/-/media/Site/Provost/Provost/PDF/Documents_Current/TaskForce2017/DataScienceTaskForce.pdf?la=en,No,,,
 Alexa,University at Buffalo--SUNY,Buffalo,NY,(716) 645-2000,http://engineering.buffalo.edu/home/academics/grad/engineering-sciences.html#title_1312571351,Yes ,,,
-Alexa,University of California--Berkeley,,,,http://guide.berkeley.edu/graduate/degree-programs/information-data-science/#mastersdegreerequirementstext,Yes ,,,
+Alexa,University of California--Berkeley,Berkeley,CA,,http://guide.berkeley.edu/graduate/degree-programs/information-data-science/#mastersdegreerequirementstext,Yes ,,,
 Alexa,University of California--Davis,Davis,CA,(530) 752-1011,https://statistics.ucdavis.edu/ms,No,,,
 Alexa,University of California--Irvine,Irvine,CA,,https://grad.uci.edu/academics/degree-programs/academic-masters/StatisticsMS.php,No,,,
 Alexa,University of California--Los Angeles,Los Angeles,CA,(310) 825-4321,https://www.msol.ucla.edu/data-science-engineering/,Yes ,,,
