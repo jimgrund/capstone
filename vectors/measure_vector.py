@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import pprint
 import numpy as np
 import spacy
 import json
@@ -91,6 +92,52 @@ universityCategories = [
     "Visualization"
 ]
 
+# dsterms
+universityMinorCategories = [
+    "Software",
+    "Engineering",
+    "Regression",
+    "Optimization",
+    "NLP",
+    "Coding",
+    "Visualization",
+    "Modeling",
+    "Data Warehousing",
+    "Algorithms",
+    "Theory"
+]
+
+# nouns
+#universityMinorCategories = [
+#    "Data Warehousing",
+#    "Economics",
+#    "Security",
+#    "Data Science",
+#    "Algorithms",
+#    "Probability",
+#    "Modeling",
+#    "Software",
+#    "Visualization",
+#    "Machine Learning",
+#    "Theory"
+#]
+
+universityMinorCategories = [
+    "Algorithms",
+    "Business",
+    "Data Mining",
+    "Data Warehousing",
+    "Deep Learning",
+    "Modeling",
+    "NLP",
+    "Other",
+    "Parallel Computing",
+    "Software",
+    "Theory",
+    "Thesis",
+    "Visualization"
+]
+
 def GetSimilarityScore(namedEntity1, namedEntity2):
     token1=nlp(namedEntity1)
     token2=nlp(namedEntity2)
@@ -120,6 +167,19 @@ def GetCategoryScores(universityCategories, jobEntities):
         category_scores.append(score.copy())
 
         print(score)
+
+    # create temp dict for normalizing the results
+    x={}
+    {x.update(d) for d in category_scores}
+
+    score=1.0/sum(x.values())
+    for k in x:
+        x[k] = x[k]*score
+
+    category_scores.clear()
+    {category_scores.append({cat:scor}) for cat,scor in x.items()}
+
+    pprint.pprint(category_scores)
 
     # now that we now, let's return the category scores for job posting
     return category_scores
