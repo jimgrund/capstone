@@ -6,6 +6,7 @@ import pandas as pd
 import json
 import gensim
 import nltk
+import nltk.data
 from gensim import corpora, models
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 
@@ -20,9 +21,17 @@ from nltk.stem import WordNetLemmatizer, SnowballStemmer
 #   },
 
 
+#nltk.download("punkt")
+
+#corp_dir = nltk.data.find('/Users/jimgrund/Documents/GWU/Capstone/capstone.20190502/job_analysis/corpus/newcorpus')
+corp_dir = '/Users/jimgrund/Documents/GWU/Capstone/capstone.20190502/job_analysis/corpus/newcorpus'
+tokenizer = nltk.corpus.PlaintextCorpusReader(corp_dir, '.*')
+
 def get_entities(text):
+
     sentences = nltk.tokenize.sent_tokenize(text)
     tokens = [nltk.tokenize.word_tokenize(s) for s in sentences]
+    #tokens = [tokenizer.words(s) for s in sentences]
     pos_tagged_tokens = [nltk.pos_tag(t) for t in tokens]
     pos_tagged_tokens = [token for sent in pos_tagged_tokens for token in sent]
 
@@ -54,10 +63,15 @@ def get_entities(text):
 
     proper_nouns = []
 
+    entities = list(list(zip(*post_entities))[0])
+
+    # filter the named entities to only matches of our custom corpus
+    filtered_entities = [w for w in entities if w.lower() in [x.lower() for x in tokenizer.words()]]
+
     #for (entity, pos) in post_entities:
     #    print('\t%s (%s)' % (entity, post_entities[(entity, pos)]))
 
-    return(list(list(zip(*post_entities))[0]))
+    return(filtered_entities)
 
 
 def get_topics(text):

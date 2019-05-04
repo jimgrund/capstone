@@ -153,14 +153,18 @@ def GetCategoryScores(universityCategories, jobEntities):
         entity_category_scores = []
         score = {}
 
-        # test each named entity from the job posting
-        for entity in jobEntities:
+        if len(jobEntities) == 0:
+            entity_category_scores.append(0.0000001)
 
-            # get a similarity score for the current university category and current named entity
-            cur_score = GetSimilarityScore(category, entity)
+        else:
+            # test each named entity from the job posting
+            for entity in jobEntities:
 
-            # append that score to a list
-            entity_category_scores.append(cur_score)
+                # get a similarity score for the current university category and current named entity
+                cur_score = GetSimilarityScore(category, entity)
+
+                # append that score to a list
+                entity_category_scores.append(cur_score)
 
         # take the list of scores for the current category and compute an average score 
         score[category]= sum(entity_category_scores)/len(entity_category_scores)
